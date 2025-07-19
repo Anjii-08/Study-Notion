@@ -33,9 +33,15 @@ exports.showAllCategories = async (req, res) => {
         console.log("INSIDE SHOW ALL CATEGORIES");
 		const allCategorys = await Category.find({});
     console.log("PRINTING ALL CATEGORIES: ", allCategorys);
+		// Map each category to ensure it has a 'courses' field
+		const updatedCategories = allCategorys.map(cat => ({
+			...cat._doc, // or cat.toObject() if using Mongoose
+			courses: Array.isArray(cat.courses) ? cat.courses : [],
+		}));
+
 		res.status(200).json({
 			success: true,
-			data: allCategorys,
+			data: updatedCategories
 		});
 	} catch (error) {
 		return res.status(500).json({
