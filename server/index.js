@@ -23,7 +23,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: [
+      "http://localhost:3000", // Local development
+      "https://study-notion-frontend-lilac-eight.vercel.app" // Deployed frontend
+    ],
     credentials: true,
   })
 );
