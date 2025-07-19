@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Footer from '../components/common/Footer'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { apiConnector } from '../services/apiconnector';
 import { categories } from '../services/apis';
 import { getCatalogaPageData } from '../services/operations/pageAndComponentData';
@@ -62,6 +62,22 @@ const Catalog = () => {
           </div>
         )
       }
+      
+      // Handle case when category has no courses
+      if (!loading && catalogPageData && !catalogPageData.success && catalogPageData.message === "No courses found for the selected category.") {
+        return (
+          <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-richblack-5 mb-4">No Courses Available</h2>
+              <p className="text-richblack-300 mb-6">{catalogPageData.message}</p>
+              <Link to="/" className="bg-yellow-25 text-richblack-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-50 transition-all duration-200">
+                Browse Other Categories
+              </Link>
+            </div>
+          </div>
+        )
+      }
+      
       if (!loading && !catalogPageData.success) {
         return <Error />
       }
